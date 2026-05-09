@@ -70,8 +70,7 @@ export async function POST(req: Request) {
     });
     embedding = emb.data[0]?.embedding ?? [];
   } catch (e) {
-    const msg = e instanceof Error ? e.message : "Embedding failed";
-    return new Response(JSON.stringify({ error: msg }), {
+    return new Response(JSON.stringify({ error: "error occ please try again" }), {
       status: 502,
       headers: { "Content-Type": "application/json" },
     });
@@ -87,8 +86,7 @@ export async function POST(req: Request) {
     if (error) throw error;
     results = (data as MatchRow[]) ?? [];
   } catch (e) {
-    const msg = e instanceof Error ? e.message : "Vector search failed";
-    return new Response(JSON.stringify({ error: msg }), {
+    return new Response(JSON.stringify({ error: "error occ please try again" }), {
       status: 502,
       headers: { "Content-Type": "application/json" },
     });
@@ -135,8 +133,7 @@ ABOUT YOU AND THE APP (STRICT):
           controller.enqueue(encoder.encode(trailer));
         }
       } catch (e) {
-        const msg = e instanceof Error ? e.message : "Generation failed";
-        controller.enqueue(encoder.encode(`\n\n[SYSTEM ERROR] ${msg}`));
+        controller.enqueue(encoder.encode(`\n\n[SYSTEM ERROR] error occ please try again`));
       } finally {
         controller.close();
       }
