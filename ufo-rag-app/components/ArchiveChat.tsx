@@ -389,7 +389,7 @@ export function ArchiveChat() {
             </div>
           </div>
           <p className={`mx-auto mt-2.5 text-center text-[11px] text-slate-500/90 sm:text-xs ${threadMax}`}>
-            Enter to send · Shift+Enter new line
+            Follow me on X <a href="https://x.com/ronith_sharmila" target="_blank" rel="noopener noreferrer" className="text-violet-400 hover:text-violet-300 transition-colors font-bold">@ronith_sharmila</a>
           </p>
         </div>
       </main>
