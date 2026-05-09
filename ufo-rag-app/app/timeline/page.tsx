@@ -214,16 +214,20 @@ export default function TimelinePage() {
                   >
                     <div className="flex justify-between items-start">
                       <div className="space-y-1">
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
-                          doc.classification === 'TOP SECRET' ? 'bg-red-500/20 text-red-400' :
-                          doc.classification === 'SECRET' ? 'bg-orange-500/20 text-orange-400' :
-                          'bg-emerald-500/20 text-emerald-400'
-                        }`}>
-                          {doc.classification}
-                        </span>
+                        {doc.classification !== 'UNKNOWN' && (
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
+                            doc.classification === 'TOP SECRET' ? 'bg-red-500/20 text-red-400' :
+                            doc.classification === 'SECRET' ? 'bg-orange-500/20 text-orange-400' :
+                            'bg-emerald-500/20 text-emerald-400'
+                          }`}>
+                            {doc.classification}
+                          </span>
+                        )}
                         <h4 className="text-xs font-bold text-white/80 leading-tight">{doc.title}</h4>
                       </div>
-                      <span className="text-[10px] font-bold text-violet-400 uppercase">{doc.agency}</span>
+                      {doc.agency !== 'UNKNOWN' && (
+                        <span className="text-[10px] font-bold text-violet-400 uppercase">{doc.agency}</span>
+                      )}
                     </div>
                     <p className="text-xs text-white/50 leading-relaxed font-mono italic">
                       "...{doc.content.substring(0, 300)}..."
