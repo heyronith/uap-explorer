@@ -216,7 +216,7 @@ export function ArchiveChat() {
           >
             <RefreshCcw className="h-4 w-4" />
           </button>
-          
+
           <Link
             href="/timeline"
             className="rounded-xl border border-violet-500/30 bg-violet-950/20 px-3 py-2 text-left shadow-inner sm:shrink-0 sm:px-4 sm:py-2.5 hover:bg-violet-900/40 transition-all group"
@@ -310,9 +310,8 @@ export function ArchiveChat() {
                 >
                   <div className="mb-1.5 flex items-center gap-2">
                     <span
-                      className={`font-sans text-[11px] font-semibold uppercase tracking-wide ${
-                        m.role === "user" ? "text-violet-100/90" : "text-teal-400"
-                      }`}
+                      className={`font-sans text-[11px] font-semibold uppercase tracking-wide ${m.role === "user" ? "text-violet-100/90" : "text-teal-400"
+                        }`}
                     >
                       {m.role === "user" ? "You" : "Pluto"}
                     </span>
@@ -389,7 +388,7 @@ export function ArchiveChat() {
             </div>
           </div>
           <p className={`mx-auto mt-2.5 text-center text-[11px] text-slate-500/90 sm:text-xs ${threadMax}`}>
-            Follow me on X <a href="https://x.com/ronith_sharmila" target="_blank" rel="noopener noreferrer" className="text-violet-400 hover:text-violet-300 transition-colors font-bold">@ronith_sharmila</a>
+            Follow <a href="https://x.com/ronith_sharmila" target="_blank" rel="noopener noreferrer" className="text-violet-400 hover:text-violet-300 transition-colors font-bold">@ronith_sharmila</a>
           </p>
         </div>
       </main>

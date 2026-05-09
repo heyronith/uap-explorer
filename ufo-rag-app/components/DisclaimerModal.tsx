@@ -11,6 +11,7 @@ export function DisclaimerModal() {
   const titleId = `${id}-title`;
   const descId = `${id}-desc`;
   const closeRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   /** Avoid SSR/hydration mismatch; read session only after mount */
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -39,7 +40,33 @@ export function DisclaimerModal() {
     document.body.style.overflow = "hidden";
     closeRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") dismiss();
+      if (e.key === "Escape") {
+        dismiss();
+        return;
+      }
+
+      if (e.key !== "Tab") return;
+      const root = dialogRef.current;
+      if (!root) return;
+
+      const focusable = root.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+
+      if (e.shiftKey) {
+        if (!active || active === first || !root.contains(active)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (!active || active === last || !root.contains(active)) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => {
@@ -61,6 +88,7 @@ export function DisclaimerModal() {
         aria-modal="true"
         aria-labelledby={titleId}
         aria-describedby={descId}
+        ref={dialogRef}
         className="relative w-full max-w-lg cursor-default rounded-2xl border border-violet-500/25 bg-[#12121a] p-6 shadow-2xl shadow-violet-950/40 sm:max-w-xl sm:rounded-[1.25rem] sm:p-8"
         onClick={(e) => e.stopPropagation()}
         onPointerDown={(e) => e.stopPropagation()}
@@ -94,7 +122,7 @@ export function DisclaimerModal() {
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#ffdd00] px-5 py-3 font-sans text-[15px] font-bold text-[#0f0f0f] shadow-md transition hover:brightness-105 sm:text-base"
             onClick={(e) => e.stopPropagation()}
           >
-            <CoffeeIcon className="h-5 w-5" />
+            <img src="/brand/kofi-bean.gif" alt="" className="h-6 w-6 object-contain" />
             Buy me a coffee
           </a>
           <button
