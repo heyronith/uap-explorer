@@ -12,7 +12,7 @@ It’s a space for the curious—for those of us who look at the sky and wonder 
 
 *   **Chat with the Archive:** I've trained an AI assistant, **Pluto**, on the actual text of declassified files from the FBI, CIA, NASA, and the Air Force. You can ask Pluto anything, and it will find the specific documents to back up its answers.
 *   **The Timeline:** A visual "Pulse" of reports from 1947 to 2023. You can see exactly when sightings spiked in history and filter them by the agency that handled the report.
-*   **Real Data:** This isn't based on rumors. The portal is powered by over **11,000 chunks of raw data** from official government archives.
+*   **Real Data:**  The portal is powered by over **11,000 chunks of raw data** from official government archives. We used the .md markdown data from https://github.com/DenisSergeevitch/UFO-USA/tree/main/converted
 
 ### ⚙️ The Engine (Backend Infra)
 
