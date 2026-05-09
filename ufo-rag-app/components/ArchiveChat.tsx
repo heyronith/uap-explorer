@@ -9,6 +9,7 @@ import { AssistantMarkdown } from "@/components/AssistantMarkdown";
 import { BrandImage } from "@/components/BrandImage";
 import { ResponseSources } from "@/components/ResponseSources";
 import { splitAssistantStreamPayload } from "@/lib/chatSources";
+import { BUY_ME_A_COFFEE_URL } from "@/lib/site";
 
 type Role = "user" | "assistant";
 
@@ -194,11 +195,8 @@ export function ArchiveChat() {
 
   return (
     <div className="fun-shell flex h-[100dvh] max-h-[100dvh] min-h-0 flex-col overflow-hidden">
-      <header className="flex w-full shrink-0 flex-col gap-3 border-b border-violet-500/15 bg-void/50 px-4 py-3 backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-10">
-        <div className="flex min-w-0 flex-wrap items-center gap-2 sm:gap-3">
-          <h1 className="font-sans text-2xl font-bold tracking-tight text-slate-100 sm:text-3xl">
-            UAP Explorer
-          </h1>
+      <header className="flex w-full shrink-0 items-center justify-between gap-2 border-b border-violet-500/15 bg-void/50 px-3 py-2.5 pt-[max(0.625rem,env(safe-area-inset-top))] backdrop-blur-sm sm:gap-4 sm:px-6 sm:py-3 lg:px-10">
+        <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
           <BrandImage
             src="/brand/ufo-mascot.png"
             alt=""
@@ -207,25 +205,45 @@ export function ArchiveChat() {
             className="h-9 w-9 shrink-0 object-contain ring-1 ring-violet-500/30 sm:h-10 sm:w-10"
             fallback={null}
           />
+          <h1 className="min-w-0 truncate font-sans text-lg font-bold tracking-tight text-slate-100 sm:text-2xl md:text-3xl">
+            UAP Explorer
+          </h1>
         </div>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={clearSession}
-            title="Reset Intelligence Session"
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/5 bg-white/5 text-slate-400 transition-all hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20"
-          >
-            <RefreshCcw className="h-4 w-4" />
-          </button>
-
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2.5">
           <Link
             href="/timeline"
-            className="rounded-xl border border-violet-500/30 bg-violet-950/20 px-3 py-2 text-left shadow-inner sm:shrink-0 sm:px-4 sm:py-2.5 hover:bg-violet-900/40 transition-all group"
+            className="rounded-xl border border-violet-500/30 bg-violet-950/20 px-2.5 py-2 shadow-inner transition-colors hover:bg-violet-900/40 sm:px-3.5 sm:py-2"
           >
-            <p className="font-sans text-xs font-semibold text-slate-200 sm:text-sm group-hover:text-violet-400 transition-colors">
+            <span className="block font-sans text-xs font-semibold leading-tight text-slate-200 sm:text-sm">
               Timeline
-            </p>
-            <p className="mt-0.5 text-[10px] text-violet-500/60 sm:text-xs">Archive Timeline Active</p>
+            </span>
+            <span className="mt-0.5 hidden text-[10px] leading-tight text-violet-500/70 sm:block sm:text-xs">
+              Archive timeline
+            </span>
           </Link>
+          <button
+            type="button"
+            onClick={clearSession}
+            title="Reset Intelligence Session"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/5 bg-white/5 text-slate-400 transition-colors hover:border-red-500/20 hover:bg-red-500/10 hover:text-red-400"
+          >
+            <RefreshCcw className="h-4 w-4" aria-hidden />
+          </button>
+          <a
+            href={BUY_ME_A_COFFEE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#ffdd00] shadow-md shadow-black/30 transition hover:brightness-110"
+            aria-label="Buy me a coffee — support on Ko-fi"
+          >
+            <img
+              src="/brand/kofi-bean.gif"
+              alt=""
+              width={32}
+              height={32}
+              className="h-8 w-8 object-contain"
+            />
+          </a>
         </div>
       </header>
 
@@ -236,36 +254,36 @@ export function ArchiveChat() {
         >
           {showStarters && (
             <div
-              className={`mx-auto flex min-h-[min(48dvh,380px)] flex-col items-center justify-center gap-6 pb-8 pt-4 text-center ${threadMax}`}
+              className={`mx-auto flex min-h-0 flex-col items-center justify-center gap-4 pb-6 pt-2 text-center sm:min-h-[min(48dvh,380px)] sm:gap-6 sm:pb-8 sm:pt-4 ${threadMax}`}
             >
-              <div className="relative mx-auto h-32 w-32 sm:h-40 sm:w-40">
+              <div className="relative mx-auto h-28 w-28 sm:h-40 sm:w-40">
                 <Image
                   src="/brand/ufo-mascot.png"
                   alt="Cute alien in a UFO"
                   width={320}
                   height={320}
                   className="h-full w-full object-contain drop-shadow-[0_12px_28px_rgba(0,0,0,0.4)]"
-                  sizes="(max-width: 640px) 8rem, 10rem"
+                  sizes="(max-width: 640px) 7rem, 10rem"
                   priority
                 />
               </div>
-              <div className="text-sm leading-relaxed text-slate-400">
-                <p className="font-sans text-lg font-semibold text-slate-100 sm:text-xl">
+              <div className="max-w-lg px-0.5 text-sm leading-relaxed text-slate-400 sm:px-0">
+                <p className="font-sans text-base font-semibold text-slate-100 sm:text-lg md:text-xl">
                   What should we look for today?
                 </p>
-                <p className="mt-2">
+                <p className="mt-1.5 text-[13px] leading-snug sm:mt-2 sm:text-sm sm:leading-relaxed">
                   Ask Pluto anything, or tap a starter. Answers cite the release when the archive has
                   enough context.
                 </p>
               </div>
-              <div className="flex w-full flex-wrap justify-center gap-2">
+              <div className="flex w-full max-w-xl flex-col gap-2 sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-center sm:gap-2.5">
                 {suggestedQuestions.map((question) => (
                   <button
                     key={question}
                     type="button"
                     onClick={() => void send(question)}
                     disabled={busy}
-                    className="rounded-full border border-violet-500/35 bg-violet-950/40 px-5 py-3.5 text-left text-[15px] font-medium leading-relaxed text-violet-200 transition hover:border-violet-400/55 hover:bg-violet-900/55 disabled:pointer-events-none disabled:opacity-45 sm:text-base"
+                    className="min-h-[3rem] w-full rounded-2xl border border-violet-500/35 bg-violet-950/40 px-4 py-3 text-left text-[14px] font-medium leading-snug text-violet-200 transition active:scale-[0.99] hover:border-violet-400/55 hover:bg-violet-900/55 disabled:pointer-events-none disabled:opacity-45 sm:min-h-0 sm:w-auto sm:max-w-[min(100%,28rem)] sm:rounded-full sm:px-5 sm:py-3.5 sm:text-[15px] sm:leading-relaxed md:text-base"
                   >
                     {question}
                   </button>
