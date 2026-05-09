@@ -115,7 +115,7 @@ ABOUT YOU AND THE APP (STRICT):
     async start(controller) {
       try {
         const completion = await openai.chat.completions.create({
-          model: "gpt-4o",
+          model: "gpt-4o-mini",
           temperature: 0,
           stream: true,
           messages: [

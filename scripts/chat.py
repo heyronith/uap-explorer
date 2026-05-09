@@ -38,7 +38,7 @@ def main():
     )
 
     # 3. Initialize LLM
-    llm = ChatOpenAI(model="gpt-4o", temperature=0)
+    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 
     print("\n--- UFO INTELLIGENCE ARCHIVE: TERMINAL ACCESS ---")
     print("Ready for query. Type 'exit' to quit.\n")
