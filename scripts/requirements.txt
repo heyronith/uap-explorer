@@ -1,0 +1,7 @@
+langchain
+langchain-openai
+langchain-community
+supabase
+python-dotenv
+pyyaml
+tqdm
