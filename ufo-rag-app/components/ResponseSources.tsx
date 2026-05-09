@@ -8,7 +8,7 @@ export function ResponseSources({ items }: { items: RetrievedSource[] }) {
       <h4 className="font-sans text-xs font-semibold uppercase tracking-wide text-teal-400/95">
         Sources
       </h4>
-      <ol className="mt-2 list-decimal space-y-2 pl-5 text-sm marker:text-violet-400">
+      <ol className="mt-2 list-decimal space-y-2 pl-5 text-[15px] marker:text-violet-400 sm:text-base">
         {items.map((s) => (
           <li key={`${s.order}-${s.source_url}`} className="leading-snug text-slate-300">
             <a

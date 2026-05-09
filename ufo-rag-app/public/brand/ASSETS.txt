@@ -1,0 +1,20 @@
+UAP Explorer — logo files (PNG with transparency unless noted)
+
+Place files in this folder (public/brand/). Filenames must match exactly.
+
+Current: logo-header.png is in use (same art as app/icon.png for the browser tab).
+
+1) logo-header.png — Header, top-right (next to the title row)
+   UI display height: 36 px (width scales with aspect).
+   Deliver: 360 × 72 px @1x OR 720 × 144 px @2x (recommended).
+   Wide horizontal wordmark or compact mark; keep critical detail inside ~300×64 @1x safe area.
+
+2) Tab / favicon — Replace app/icon.svg with your own, OR add app/icon.png next to app/icon.svg (Next.js prefers app/icon.png when present).
+   Deliver for app/icon.png: 512 × 512 px square PNG.
+   Keep the main glyph inside ~400 × 400 px so it stays clear when the browser crops to a circle.
+
+3) pluto-avatar.png — Circle next to Pluto’s chat bubbles
+   UI display: 40 × 40 px circle (object-cover).
+   Deliver: 160 × 160 px square PNG (2× margin). Center the face/mark; edges will be cropped to a circle.
+
+Optional: If you also want a small mark left of the title, add logo-mark.png at 80 × 80 px (@2x for 40 px display) — not wired by default.

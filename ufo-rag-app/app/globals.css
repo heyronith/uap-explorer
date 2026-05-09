@@ -35,72 +35,11 @@
   }
 }
 
-@keyframes float-soft {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-@keyframes wiggle {
-  0%,
-  100% {
-    transform: rotate(-2deg);
-  }
-  50% {
-    transform: rotate(2deg);
-  }
-}
-
 .fun-shell {
   background-image:
     linear-gradient(rgba(139, 92, 246, 0.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(45, 212, 191, 0.05) 1px, transparent 1px);
   background-size: 34px 34px;
-}
-
-.fun-card {
-  position: relative;
-  border: 1px solid rgba(139, 92, 246, 0.2);
-  background: rgba(18, 18, 26, 0.85);
-  box-shadow:
-    0 24px 80px rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(18px);
-}
-
-.fun-card::before,
-.fun-card::after {
-  content: "";
-  pointer-events: none;
-  position: absolute;
-  border-radius: 999px;
-  opacity: 0.4;
-}
-
-.fun-card::before {
-  top: -18px;
-  right: 12%;
-  width: 48px;
-  height: 48px;
-  background: #7c3aed;
-  animation: float-soft 6s ease-in-out infinite;
-}
-
-.fun-card::after {
-  bottom: 18px;
-  left: -20px;
-  width: 40px;
-  height: 40px;
-  background: #0d9488;
-  animation: float-soft 7s ease-in-out infinite reverse;
-}
-
-.ufo-badge {
-  animation: wiggle 4s ease-in-out infinite;
 }
 
 .friendly-scrollbar {
