@@ -1,7 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
+import { RefreshCcw } from "lucide-react";
 import { AssistantMarkdown } from "@/components/AssistantMarkdown";
 import { BrandImage } from "@/components/BrandImage";
 import { ResponseSources } from "@/components/ResponseSources";
@@ -51,12 +54,52 @@ function id() {
 }
 
 export function ArchiveChat() {
+  const searchParams = useSearchParams();
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const listScrollRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const hasAutoQueried = useRef(false);
+
+  const STORAGE_KEY = "uap-explorer-chat-history";
+
+  const clearSession = useCallback(() => {
+    if (confirm("Reset current intelligence session?")) {
+      setMessages([]);
+      localStorage.removeItem(STORAGE_KEY);
+      hasAutoQueried.current = false;
+    }
+  }, []);
+
+  // Load history from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        setMessages(JSON.parse(saved));
+      } catch (e) {
+        console.error("Failed to parse chat history");
+      }
+    }
+  }, []);
+
+  // Sync history to localStorage on change
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+    }
+  }, [messages]);
+
+  // Auto-trigger "Deep Inquiry" from Timeline
+  useEffect(() => {
+    const q = searchParams.get("q");
+    if (q && !hasAutoQueried.current && !busy) {
+      hasAutoQueried.current = true;
+      void send(q);
+    }
+  }, [searchParams, busy]);
 
   const scrollMessagesToEnd = useCallback(() => {
     const el = listScrollRef.current;
@@ -165,14 +208,24 @@ export function ArchiveChat() {
             fallback={null}
           />
         </div>
-        <div
-          className="rounded-xl border border-slate-600/50 bg-hull/70 px-3 py-2 text-left shadow-inner sm:shrink-0 sm:px-4 sm:py-2.5"
-          aria-label="Timeline of events placeholder"
-        >
-          <p className="font-sans text-xs font-semibold text-slate-200 sm:text-sm">
-            Timeline of events
-          </p>
-          <p className="mt-0.5 text-[10px] text-slate-500 sm:text-xs">Placeholder — coming soon</p>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={clearSession}
+            title="Reset Intelligence Session"
+            className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/5 bg-white/5 text-slate-400 transition-all hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20"
+          >
+            <RefreshCcw className="h-4 w-4" />
+          </button>
+          
+          <Link
+            href="/timeline"
+            className="rounded-xl border border-violet-500/30 bg-violet-950/20 px-3 py-2 text-left shadow-inner sm:shrink-0 sm:px-4 sm:py-2.5 hover:bg-violet-900/40 transition-all group"
+          >
+            <p className="font-sans text-xs font-semibold text-slate-200 sm:text-sm group-hover:text-violet-400 transition-colors">
+              Timeline
+            </p>
+            <p className="mt-0.5 text-[10px] text-violet-500/60 sm:text-xs">Archive Timeline Active</p>
+          </Link>
         </div>
       </header>
 
