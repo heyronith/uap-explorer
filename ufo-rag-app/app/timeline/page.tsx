@@ -60,7 +60,7 @@ export default function TimelinePage() {
     async function fetchDossiers() {
       setDossierLoading(true);
       try {
-        const res = await fetch(`/api/timeline/dossier?year=${selectedYear}&agency=${agency}`);
+        const res = await fetch(`/api/timeline/dossier?year=${selectedYear}&agency=${agency}&classification=${classification}`);
         const json = await res.json();
         setDossiers(json.results || []);
       } catch (err) {

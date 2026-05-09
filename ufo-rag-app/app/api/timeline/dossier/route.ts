@@ -5,6 +5,7 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const year = searchParams.get("year");
   const agency = searchParams.get("agency");
+  const classification = searchParams.get("classification");
 
   if (!year) {
     return NextResponse.json({ error: "Year is required" }, { status: 400 });
@@ -19,11 +20,14 @@ export async function GET(req: Request) {
     let query = supabase
       .from("documents")
       .select("content, metadata")
-      .eq("metadata->>extracted_year", year)
+      .eq("metadata->>extracted_year", parseInt(year!))
       .limit(10);
 
     if (agency && agency !== "ALL") {
       query = query.eq("metadata->>agency", agency);
+    }
+    if (classification && classification !== "ALL") {
+      query = query.eq("metadata->>classification", classification);
     }
 
     const { data, error } = await query;
