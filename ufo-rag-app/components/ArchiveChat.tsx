@@ -60,6 +60,7 @@ export function ArchiveChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lastQuery, setLastQuery] = useState("");
   const listScrollRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const hasAutoQueried = useRef(false);
@@ -130,6 +131,7 @@ export function ArchiveChat() {
     setError(null);
     setInput("");
     setBusy(true);
+    setLastQuery(text);
     requestAnimationFrame(() => adjustTextarea());
 
     const userMsg: ChatMessage = { id: id(), role: "user", content: text };
@@ -144,7 +146,10 @@ export function ArchiveChat() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text }),
+        body: JSON.stringify({ 
+          message: text,
+          history: messages.map(m => ({ role: m.role, content: m.content }))
+        }),
       });
 
       if (!res.ok) {
@@ -372,8 +377,15 @@ export function ArchiveChat() {
         </div>
 
         {error && (
-          <div className="shrink-0 border-t border-orange-500/30 bg-orange-950/35 px-4 py-2 text-center text-sm text-orange-200 sm:px-6">
-            {error}
+          <div className="flex shrink-0 items-center justify-center gap-3 border-t border-orange-500/30 bg-orange-950/35 px-4 py-2 text-center text-sm text-orange-200 sm:px-6">
+            <span>{error}</span>
+            <button
+              onClick={() => void send(lastQuery)}
+              className="flex items-center gap-1.5 rounded-lg bg-orange-500/20 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-orange-400 hover:bg-orange-500/30 transition-colors"
+            >
+              <RefreshCcw className="h-3 w-3" />
+              Retry
+            </button>
           </div>
         )}
 

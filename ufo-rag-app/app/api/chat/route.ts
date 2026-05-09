@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     );
   }
 
-  let body: { message?: string };
+  let body: { message?: string; history?: { role: string; content: string }[] };
   try {
     body = await req.json();
   } catch {
@@ -52,6 +52,8 @@ export async function POST(req: Request) {
   }
 
   const query = typeof body.message === "string" ? body.message.trim() : "";
+  const history = Array.isArray(body.history) ? body.history : [];
+
   if (!query) {
     return new Response(JSON.stringify({ error: "message is required." }), {
       status: 400,
@@ -62,11 +64,34 @@ export async function POST(req: Request) {
   const openai = new OpenAI({ apiKey: openaiKey });
   const supabase = createClient(supabaseUrl, supabaseKey);
 
+  // 1. Query Condensation (If history exists, rewrite the query to be standalone for search)
+  let searchquery = query;
+  if (history.length > 0) {
+    try {
+      const condensation = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: "Given the following conversation and a follow-up question, rephrase the follow-up question to be a standalone search query for a vector database. Maintain the original intent but make it specific. Respond ONLY with the rewritten query.",
+          },
+          ...history.slice(-5).map((m) => ({ role: m.role as "user" | "assistant", content: m.content })),
+          { role: "user", content: query },
+        ],
+        temperature: 0,
+      });
+      searchquery = condensation.choices[0]?.message?.content?.trim() || query;
+    } catch (e) {
+      console.error("Condensation error:", e);
+      // Fallback to original query
+    }
+  }
+
   let embedding: number[];
   try {
     const emb = await openai.embeddings.create({
       model: "text-embedding-3-small",
-      input: query,
+      input: searchquery,
     });
     embedding = emb.data[0]?.embedding ?? [];
   } catch (e) {
@@ -120,6 +145,7 @@ ABOUT YOU AND THE APP (STRICT):
           stream: true,
           messages: [
             { role: "system", content: systemPrompt },
+            ...history.map((m) => ({ role: m.role as "user" | "assistant", content: m.content })),
             { role: "user", content: query },
           ],
         });
